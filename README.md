@@ -8,4 +8,4 @@ This is my personal portfolio website built using HTML, CSS, and JavaScript.
 - Data-focused projects
 
 ## Live Demo
-(https://faiqrobani.github.io/portofolio)
+(https://faiqrobani.github.io/portfolio)

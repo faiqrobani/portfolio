@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <title>Fa'iq Robbani - Portofolio</title>
@@ -16,8 +17,6 @@
     <header class="header">
         <a href="#home" class="logo">Fa'iq Robbani</a>
 
-        <i class='bx bx-menu' id="menu-icon"></i>
-
         <nav class="navbar">
             <a href="#home">Home</a>
             <a href="#about">About</a>
@@ -25,30 +24,46 @@
             <a href="#testimonial">Testimonial</a>
             <a href="#contact">Contact</a>
         </nav>
+
+        <div class="nav-right">
+            <i class='bx bx-moon' id="theme-btn"></i>
+            <i class='bx bx-menu' id="menu-icon"></i>
+        </div>
     </header>
 
     <!-- Home Section Code -->
 
     <section class="home" id="home">
-        <div class="home-img">
+        <div class="home-img reveal">
             <img src="assets/Profile.jpeg" alt="Profile Image">
         </div>
 
-        <div class="home-content">
+        <div class="home-content reveal">
             <h3> Hello, My Name Is</h3>
             <h1> Fa'iq Robbani</h1>
             <h3>And I'm a <span class="multiple-text">Data Enthusiast</span></h3>
             <p>
-            I am a data enthusiast and web developer with a strong interest in data analysis, machine learning, and
+                I am a data enthusiast and web developer with a strong interest in data analysis, machine learning, and
                 building interactive web applications. I enjoy combining data processing with clean and responsive web
                 interfaces to create meaningful digital solutions.
             </p>
 
-            <div class="social-media">
-                <a href="#"><i class='bx bxl-linkedin'></i></a>
-                <a href="#"><i class='bx bxl-github'></i></a>
-                <a href="#"><i class='bx bxl-instagram'></i></a>
-                <a href="#"><i class='bx bxl-facebook'></i></a>
+            <div class="social-media reveal">
+                <a href="https://www.linkedin.com/in/muhamad-fa-iq-robbani-28b62126a/" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class='bx bxl-linkedin'></i>
+                </a>
+
+                <a href="https://github.com/faiqrobani" target="_blank" rel="noopener noreferrer">
+                    <i class='bx bxl-github'></i>
+                </a>
+
+                <a href="https://www.instagram.com/iiamfaiq/" target="_blank" rel="noopener noreferrer">
+                    <i class='bx bxl-instagram'></i>
+                </a>
+                <a href="https://wa.me/6288232090128" target="_blank" rel="noopener noreferrer">
+                    <i class='bx bxl-whatsapp'></i>
+                </a>
             </div>
             <a href="assets/CV Muhamad Fa'iq Robbani.pdf" class="btn">Download CV</a>
         </div>
@@ -57,7 +72,7 @@
     <!-- About Section Code -->
 
     <section class="about" id="about">
-        <div class="about-content">
+        <div class="about-content reveal">
             <h2 class="heading">About <span>Me</span></h2>
             <h3>I'm a <span>Data Enthusiast</span></h3>
             <p>
@@ -82,7 +97,7 @@
             <a href="#" class="btn">Read More</a>
         </div>
 
-        <div class="about-img">
+        <div class="about-img reveal">
             <img src="assets/About.jpeg" alt="About Image">
         </div>
     </section>
@@ -93,7 +108,7 @@
         <h2 class="heading">My <span>Services</span></h2>
 
         <div class="services-container">
-            <div class="service-box">
+            <div class="service-box reveal">
                 <i class='bx bx-chart'></i>
                 <h3>Data Analysis</h3>
                 <p>Performing data analysis using Python (Pandas, NumPy) and R, including data cleaning, exploration,
@@ -101,7 +116,7 @@
                 <a href="#" class="btn">Read More</a>
             </div>
 
-            <div class="service-box">
+            <div class="service-box reveal">
                 <i class='bx bx-pie-chart-alt-2'></i>
                 <h3>Data Visualization</h3>
                 <p>Creating clear and interactive visualizations using tools like Matplotlib, Seaborn, and Power BI to
@@ -109,7 +124,7 @@
                 <a href="#" class="btn">Read More</a>
             </div>
 
-            <div class="service-box">
+            <div class="service-box reveal">
                 <i class='bx bx-data'></i>
                 <h3>Database Management</h3>
                 <p>Managing and organizing structured data efficiently, including basic database operations and data
@@ -117,7 +132,7 @@
                 <a href="#" class="btn">Read More</a>
             </div>
 
-            <div class="service-box">
+            <div class="service-box reveal">
                 <i class='bx bx-palette'></i>
                 <h3>Web Development</h3>
                 <p>Building responsive and user-friendly websites using HTML, CSS, and JavaScript, focusing on clean
@@ -131,25 +146,25 @@
 
     <section class="testimonial" id="testimonial">
 
-        <div class="testimonial-box">
+        <div class="testimonial-box reveal">
             <h2 class="heading">Testimonial</h2>
 
             <div class="wrapper">
-                <div class="testimonial-item">
+                <div class="testimonial-item reveal">
                     <img src="assets/01.jpg" alt="">
 
                     <h2>Giselle</h2>
                     <div class="rating">
-                        <i class='bx bxs-star star'></i>            
                         <i class='bx bxs-star star'></i>
-                        <i class='bx bxs-star star'></i>            
+                        <i class='bx bxs-star star'></i>
+                        <i class='bx bxs-star star'></i>
                         <i class='bx bxs-star star'></i>
                         <i class='bx bxs-star star'></i>
                     </div>
                     <p>Very detail-oriented and able to explain data clearly. Great to work with.</p>
                 </div>
 
-                <div class="testimonial-item">
+                <div class="testimonial-item reveal">
                     <img src="assets/02.jpg" alt="">
 
                     <h2>Thomas</h2>
@@ -163,7 +178,7 @@
                     <p>Has strong analytical thinking and good understanding of statistical concepts.</p>
                 </div>
 
-                <div class="testimonial-item">
+                <div class="testimonial-item reveal">
                     <img src="assets/03.jpg" alt="">
 
                     <h2>Carmen</h2>
@@ -186,16 +201,16 @@
     <section class="contact" id="contact">
         <h2 class="heading">Contact <span>Me</span></h2>
 
-        <form action="#">
+        <form class="reveal" action="#">
             <div class="input-box">
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email Address">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
             </div>
             <div class="input-box">
-                <input type="text" placeholder="Phone Number">
-                <input type="text" placeholder="Email Subject">
+                <input type="text" name="phone" placeholder="Phone Number" required>
+                <input type="text" name="subject" placeholder="Email Subject" required>
             </div>
-            <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
+            <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
             <input type="submit" value="Send Message" class="btn">
         </form>
     </section>

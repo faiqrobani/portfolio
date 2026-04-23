@@ -6,7 +6,7 @@
     border: none;
     outline: none;
     scroll-behavior: smooth;
-    font-family: -apple-system, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 :root{
@@ -14,6 +14,13 @@
     --snd-bg-color: #10201c;    /* section background */
     --text-color: #e6f4f1;      /* soft white */
     --main-color: #1fbf9a;      /* emerald-teal accent */
+}
+
+.light-mode {
+    --bg-color: #f0fdfa;
+    --snd-bg-color: #ffffff;
+    --text-color: #0b1412;
+    --main-color: #15803d; /* Hijau lebih gelap agar kontras di bg terang */
 }
 
 html {
@@ -43,9 +50,24 @@ section {
     align-items: center;
     justify-content: space-between;
     padding: 2rem 5%;
-    background: var(--main-color);
+    background: transparent; /* Pastikan ini transparan di awal */
     backdrop-filter: blur(10px);
     transition: all 0.5s ease;
+}
+
+.header.scrolled {
+    background: var(--bg-color); /* Berubah warna saat scroll */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 5%;
+}
+
+.header.scrolled .navbar a {
+    color: var(--text-color);
+}
+
+.header.scrolled .navbar a.active {
+    color: var(--main-color);
+    border-bottom: 3px solid var(--main-color);
 }
 
 .logo {
@@ -62,22 +84,53 @@ section {
 
 .navbar a {
     font-size: 1.9rem;
-    color: var(--bg-color);
+    color: var(--text-color); /* Pastikan pakai var teks yang terang */
     margin-left: 4rem;
     font-weight: 700;
-    transition: 0.3s ease;   
+    transition: 0.3s ease;
+    border-bottom: 3px solid transparent; /* Siapkan space untuk border agar tidak goyang */
+    padding-bottom: 5px;
+    text-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+}
+
+.header:not(.scrolled) .navbar a {
+    text-shadow: 0px 0px 8px rgba(0,0,0,0.8);
 }
 
 .navbar a:hover,
 .navbar a:active {
     color: var(--text-color);
+    border-bottom: 3px solid var(--main-color);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* Jarak antara bulan dan hamburger */
 }
 
 #menu-icon {
     font-size: 3.6rem;
-    color: var(--bg-color);
+    color: var(--text-color);
     cursor: pointer;
-    display: none;
+    display: none; /* Sembunyi di desktop */
+}
+
+#menu-icon:hover {
+    transform: scale(1.1);
+    color: var(--text-color);
+}
+
+#theme-btn {
+    font-size: 2.5rem;
+    color: var(--text-color); /* Saya sarankan pakai text-color agar terlihat */
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#theme-btn:hover {
+    transform: scale(1.1);
+    color: var(--text-color);
 }
 
 /* Home Section Code */
@@ -140,6 +193,11 @@ span {
 
 .home-content p {
     font-size: 1.6rem;
+}
+
+.social-media {
+    position: relative;
+    z-index: 10;
 }
 
 .social-media a {
@@ -471,6 +529,9 @@ span {
     #menu-icon {
         display: block;
     }
+    .nav-right {
+        gap: 1.5rem; /* Perkecil jarak di mobile agar tidak sesak */
+    }
     .navbar {
         position: absolute;
         top: 100%;
@@ -479,14 +540,19 @@ span {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        background: var(--main-color);
+        background: var(--snd-bg-color);
         transition: 0.5s all ease;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
+        border-left: 3px solid var(--main-color); 
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
     }
     .navbar a {
         display: block;
-        padding: 17px;
-        font-size: 22px;
+        padding: 2rem;
+        font-size: 2rem;
+        color: var(--text-color);
+        font-weight: 600;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     .navbar.active {
         right: 0;
@@ -545,4 +611,18 @@ span {
 .navbar a.active {
     color: var(--text-color);
     border-bottom: 2px solid var(--text-color);
+}
+
+/* Scroll Reveal Animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s ease;
+    pointer-events: none;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }

@@ -1,785 +1,180 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    border: none;
-    outline: none;
-    scroll-behavior: smooth;
-    font-family: 'Poppins', sans-serif;
-}
+let menu = document.querySelector('#menu-icon');
+let navbar = document.querySelector('.navbar');
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.navbar a');
+const header = document.querySelector('.header');
 
-:root{
-    --bg-color: #0b1412;        /* dark emerald-black */
-    --snd-bg-color: #10201c;    /* section background */
-    --text-color: #e6f4f1;      /* soft white */
-    --main-color: #1fbf9a;      /* emerald-teal accent */
-}
+// Toggle menu
+menu.onclick = () => {
+    menu.classList.toggle('bx-x');
+    navbar.classList.toggle('active');
+    
+    // Mencegah scroll pada halaman utama saat menu mobile sedang terbuka
+    document.body.style.overflow = navbar.classList.contains('active') ? 'hidden' : 'auto';
+};
 
-.light-mode {
-    --bg-color: #f8fafc; /* Gunakan sedikit off-white agar tidak silau */
-    --snd-bg-color: #ffffff;
-    --text-color: #0f172a;
-    --main-color: #059669; /* Hijau lebih gelap agar kontras di bg terang */
-}
+// Auto close menu when clicking link
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        menu.classList.remove('bx-x');
+        navbar.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+});
 
-html {
-    font-size: 62.5%;
-    overflow-x: hidden;
-}
+// Scroll event (optimized)
+let ticking = false;
 
-body {
-    background: var(--bg-color);
-    color: var(--text-color);
-}
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            // 1. Efek Transparan Header
+            header.classList.toggle('scrolled', window.scrollY > 50);
 
-section {
-    min-height: 100vh;
-    padding: 10rem 9% 2rem;
-}
+            // 2. Logika Active Link yang lebih akurat
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Jika scroll sudah melewati 1/3 bagian section tersebut
+                if (window.scrollY >= sectionTop - sectionHeight / 3) {
+                    current = section.getAttribute("id");
+                }
+            });
 
-.modal {
-    display: none; 
-    position: fixed;
-    z-index: 9999; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-}
+            navLinks.forEach((link) => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(current)) {
+                    link.classList.add("active");
+                }
+            });
 
-/* Container Utama Modal */
-.modal-content {
-    background: var(--snd-bg-color);
-    margin: 5% auto; /* Jarak dari atas dikurangi agar tidak terlalu ke bawah */
-    padding: 5rem 3rem 4rem; /* Padding atas dilebihkan untuk ruang tombol X */
-    border: 2px solid var(--main-color);
-    width: 40%; /* Lebih ramping di desktop agar elegan */
-    max-width: 600px;
-    border-radius: 2rem;
-    position: relative;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    animation: modalFadeIn 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-/* Tombol Close (X) yang Benar */
-.close-modal {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    font-size: 3.5rem;
-    color: var(--text-color);
-    cursor: pointer;
-    transition: 0.3s;
-    line-height: 1;
-}
-
-.close-modal:hover {
-    color: #ff4d4d; /* Berubah merah saat hover agar jelas fungsinya */
-    transform: scale(1.1);
-}
-
-/* Penataan Isi Modal */
-.modal-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem; /* Memberi jarak otomatis antar elemen */
-}
-
-.modal-body i {
-    font-size: 6rem; /* Ukuran ikon diperkecil sedikit agar proporsional */
-    color: var(--main-color);
-    background: rgba(31, 191, 154, 0.1); /* Tambahkan background bulat halus */
-    padding: 2rem;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-}
-
-.modal-body h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--main-color);
-}
-
-.modal-body p {
-    font-size: 1.6rem;
-    line-height: 1.8;
-    color: var(--text-color);
-    text-align: justify; /* Membuat teks terlihat lebih rapi seperti buku */
-}
-
-/* Header Section Code */
-
-.header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    right: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2rem 5%;
-    background: transparent; /* Pastikan ini transparan di awal */
-    backdrop-filter: blur(10px);
-    transition: background 0.5s ease, backdrop-filter 0.5s ease, padding 0.5s ease;
-}
-
-.header.scrolled {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px); 
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    padding: 1.5rem 5%;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.header.scrolled .navbar a {
-    color: var(--text-color);
-}
-
-.header.scrolled .navbar a.active {
-    color: var(--main-color);
-    border-bottom: 3px solid var(--main-color);
-}
-
-.light-mode .header.scrolled {
-    background: rgba(255, 255, 255, 0.4); /* Lebih putih tapi tetap transparan */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Garis tipis gelap */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.light-mode .header.scrolled .logo,
-.light-mode .header.scrolled #theme-btn,
-.light-mode .header.scrolled #menu-icon,
-.light-mode .header.scrolled .navbar a {
-    color: #0b1412; /* Warna teks berubah jadi gelap agar kontras */
-    text-shadow: none;
-}
-
-.light-mode .header.scrolled .navbar a.active {
-    border-bottom: 3px solid var(--main-color);
-    color: var(--main-color);
-}
-
-.light-mode .header:not(.scrolled) .logo {
-    color: var(--text-color);
-    text-shadow: 0 0 5px rgba(0,0,0,0.3);
-}
-
-.logo {
-    font-size: 3rem;
-    color: var(--text-color);
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.logo:hover {
-    transform: scale(1.05);
-}
-
-.navbar a {
-    font-size: 1.9rem;
-    color: var(--text-color); /* Pastikan pakai var teks yang terang */
-    margin-left: 4rem;
-    font-weight: 700;
-    transition: 0.3s ease;
-    border-bottom: 3px solid transparent; /* Siapkan space untuk border agar tidak goyang */
-    padding-bottom: 5px;
-    text-shadow: 0px 0px 5px rgba(0,0,0,0.5);
-}
-
-.header:not(.scrolled) .navbar a {
-    text-shadow: 0px 0px 8px rgba(0,0,0,0.8);
-}
-
-.navbar a:hover,
-.navbar a:active {
-    color: var(--text-color);
-    border-bottom: 3px solid var(--main-color);
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 2rem; /* Jarak antara bulan dan hamburger */
-}
-
-#menu-icon {
-    font-size: 3.6rem;
-    color: var(--text-color);
-    cursor: pointer;
-    display: none; /* Sembunyi di desktop */
-}
-
-#menu-icon:hover {
-    transform: scale(1.1);
-    color: var(--text-color);
-}
-
-#theme-btn {
-    font-size: 2.5rem;
-    color: var(--text-color); /* Saya sarankan pakai text-color agar terlihat */
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-#theme-btn:hover {
-    transform: scale(1.1);
-    color: var(--text-color);
-}
-
-/* Home Section Code */
-
-.home{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.home-img img {
-    width: 25vw;
-    border-radius: 50%;
-    box-shadow: 0 0 25px var(--main-color);
-    cursor: pointer;
-    animation: floatimage 4s ease-in-out infinite;
-    transition: 0.4s ease;
-}
-
-.home-img img:hover {
-    box-shadow: 0 0 25px var(--main-color),
-                0 0 35px var(--main-color),
-                0 0 45px var(--main-color)
-}
-
-@keyframes floatimage {
-    0% {
-        transform: translateY(0);
+            ticking = false;
+        });
+        ticking = true;
     }
-    50% {
-        transform: translateY(-2.4rem);
-    }    
-    100% {
-        transform: translateY(0);
-    }
+}, { passive: true });
+
+// Typed.js
+if (document.querySelector(".multiple-text")) {
+    new Typed('.multiple-text', {
+        strings: ['Data Analyst', 'Data Scientist', 'Web Developer', 'Data Engineer'],
+        typeSpeed: 80,
+        backSpeed: 50,
+        backDelay: 1000,
+        loop: true,
+    });
 }
 
-.home-content {
-    margin-left: 5rem;
-}
+// Contact Form Validation
+document.querySelector('.contact form').addEventListener('submit', function (e) {
 
-.home-content h3 {
-    font-size: 3.7rem;
-    font-weight: 700;
-}
+    const inputs = this.querySelectorAll('input[type="text"], input[type="email"], textarea');
+    const email = this.querySelector('input[type="email"]');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-.home-content h3:nth-of-type(2) {
-    margin-bottom: 2rem;
-}
+    let valid = true;
 
-span {
-    color: var(--main-color);
-}
+    inputs.forEach(input => {
+        if (!input.value.trim()) {
+            input.style.borderColor = 'red';
+            valid = false;
+        } else {
+            input.style.borderColor = 'var(--main-color)';
+        }
+    });
 
-.home-content h1 {
-    font-size: 6rem;
-    font-weight: 700;
-    line-height: 1.3;
-}
-
-.home-content p {
-    font-size: 1.6rem;
-}
-
-.social-media {
-    position: relative;
-    z-index: 10;
-}
-
-.social-media a {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 42px;
-    height: 42px;
-    background: transparent;
-    border: 0.2rem solid var(--main-color);
-    border-radius: 50%;
-    font-size: 2rem;
-    color: var(--main-color);
-    margin: 3rem 1.5rem 3rem 0;
-    transition: 0.3s ease;
-}
-
-.social-media a:hover {
-    transform: scale(1.2) translateY(-10px);
-    background-color: var(--main-color);
-    color: var(--bg-color);    
-    box-shadow: 0 0 25px var(--main-color);
-}
-
-.btn {
-    display: inline-block;
-    padding: 1rem 2.8rem;
-    background: var(--main-color);
-    border-radius: 4rem;
-    box-shadow: none;
-    font-size: 1.6rem;
-    color: var(--bg-color);
-    letter-spacing: 0.1rem;
-    font-weight: 600;
-    transition: 0.3s ease;
-}
-
-.btn:hover {
-    box-shadow: 0 0 1.6rem var(--main-color);
-}
-
-/* About Section Code    */
-
-.about {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    background: var(--snd-bg-color);
-} 
-
-.about-img img {
-    width: 25vw;
-    border: 2px solid var(--main-color);
-    border-radius: 50%;
-    box-shadow: 0 0 25px var(--main-color);
-    cursor: pointer;
-    transition: 0.4s ease;
-}
-
-.about-img img:hover {
-    box-shadow: 0 0 25px var(--main-color),
-                0 0 35px var(--main-color),
-                0 0 45px var(--main-color)
-}
-
-.heading {
-    font-size: 6rem;
-    text-align: center;
-}
-
-.about-content {
-    padding: 0 4rem;
-}
-
-.about-content h2 {
-    text-align: left;
-    line-height: 1.2;
-}
-
-.about-content h3 {
-    font-size: 3rem;
-}
-
-.about-content p {
-    font-size: 1.6rem;
-    margin: 2rem 0 3rem;
-}
-
-.highlight {
-    color: var(--main-color);
-    font-weight: 600;
-}
-
-/* Services Section Code */
-
-.services h2 {
-    text-align: center;
-    margin-bottom: 5rem;
-}
-
-.services-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-}
-
-.services-container .service-box {
-    flex: 1 1 30rem;
-    background: var(--snd-bg-color);
-    padding: 6rem 2rem 4rem;
-    border-radius: 2rem;
-    text-align: center;
-    border: 0.3rem solid var(--bg-color);
-    transition: 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-    align-items: center; 
-    min-height: 450px; 
-}   
-
-.services-container .service-box:hover {
-    border-color: var(--main-color);
-    transform: scale(1.02);
-}
-
-.service-box i {
-    font-size: 7rem;
-    color: var(--main-color);
-}
-
-.service-box h3 {
-    font-size: 2.6rem;
-}
-
-.service-box p {
-    font-size: 1.6rem;
-    margin: 1rem 0 3rem;
-    flex-grow: 1;
-}
-
-/* Testimonial Section Code */
-
-.testimonial {
-    background: var(--snd-bg-color);
-}
-
-.testimonial-box {
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.testimonial .heading {
-    margin-bottom: 5rem;
-}
-
-.testimonial-item img {
-    width: 15rem;
-    border-radius: 50%;
-    border: 3px solid var(--main-color);
-    box-shadow: 0 0 25px var(--main-color);
-}
-
-.wrapper {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 3rem;
-}
-
-.testimonial-item {
-    min-height: 450px;
-    max-width: 450px;
-    background: var(--bg-color);
-    border: 0.3rem solid var(--bg-color);
-    border-radius: 2rem;
-    margin: 0 2rem;
-    padding: 20px 20px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    color: var(--text-color);
-    transition: 0.3s ease;
-}
-
-.testimonial-item:hover {
-    border-color: var(--main-color);
-    transform: scale(1.02);
-}
-
-.testimonial-item h2 {
-    font-size: 3rem;
-}
-
-.testimonial-item p {
-    font-size: 1.5rem;
-    text-align: center;
-}   
-
-.star {
-    color: gold;
-    font-size: 2em;
-}
-
-/* Contact Section Code */
-
-.contact {
-    background: var(--bg-color);
-}
-
-.contact .heading {
-    text-align: center;
-}
-
-.contact h2 {
-    margin-bottom: 3rem;
-    color: var(--text-color);
-}
-
-.contact form {
-    max-width: 80rem;
-    margin: 1rem auto;
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.contact form .input-box {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.contact form .input-box input,
-.contact form textarea {
-    width: 100%;
-    padding: 1.5rem;
-    font-size: 1.6rem;
-    color: var(--text-color);
-    background: var(--bg-color);
-    border-radius: 0.8rem;
-    border: 0.25rem solid var(--main-color);
-    margin: 0.7rem 0;
-    resize: none;
-    transition: 0.3s ease;
-}
-
-.contact form .input-box input {
-    width: 49%;
-    margin: 0.7rem 0.35rem;
-}
-
-.contact form .btn {
-    margin-top: 2rem;
-}
-
-/* Footer Section Code */
-
-.footer {
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    padding: 40px 0;
-    background-color: var(--snd-bg-color);
-}
-
-.footer .social {
-    text-align: center;
-    padding-bottom: 25px;
-    color: var(--main-color);
-}
-
-.footer .social a {
-    font-size: 25px;
-    color: var(--main-color);
-    border: 2px solid var(--main-color);
-    width: 42px;
-    height: 42px;
-    line-height: 42px;
-    display: inline-block;
-    text-align: center;
-    border-radius: 50%;
-    margin: 0 10px;
-    transition: 0.3s ease;
-}
-
-.footer .social a:hover {
-    transform: scale(1.2) translateY(-10px);
-    background-color: var(--main-color);
-    color: var(--bg-color);    
-    box-shadow: 0 0 25px var(--main-color);
-}
-
-.footer .copyright {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 16px;
-    color: var(--text-color);
-}
-
-/* Responsive Design Code */
-
-@media (max-width: 1200px) {
-    html {
-        font-size: 55%;
-    }
-}
-
-@media (max-width: 991px) {
-    .header {
-        padding: 2rem 3%;
-    }
-    section {
-        padding: 10rem 3%;
-    }
-    .services {
-        padding: 7rem;
-    }
-    .testimonial .wrapper {
-        grid-template-columns: repeat(1,1fr);
-    }
-    .contact form .input-box input {
-        width: 100%;
-    }
-    .footer {
-        padding: 2rem 3%;
-    }
-}
-
-@media (max-width: 991px) {
-    #menu-icon {
-        display: block;
-    }
-    .light-mode .navbar {
-        background: rgba(255, 255, 255, 0.8); /* Putih transparan */
-        backdrop-filter: blur(15px); /* Efek kaca es */
-        border-left: 3px solid var(--main-color);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05); /* Bayangan sangat halus */
+    if (!emailPattern.test(email.value.trim())) {
+        email.style.borderColor = "red";
+        valid = false;
     }
 
-    .light-mode .navbar a {
-        color: #0b1412; /* Teks menu gelap */
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Garis pemisah tipis */
-    }
+    if (!valid) {
+        e.preventDefault();
+        alert('Mohon lengkapi formulir dengan benar!');
+    } else {}
+});
 
-    .light-mode .navbar a.active {
-        background: rgba(31, 191, 154, 0.1); /* Warna hijau sangat muda saat aktif */
-        color: var(--main-color);
-    }
-    .nav-right {
-        gap: 1.5rem; /* Perkecil jarak di mobile agar tidak sesak */
-    }
-    .navbar {
-        position: absolute;
-        top: 100%;
-        right: -100%;
-        width: 255px;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        background: var(--snd-bg-color);
-        transition: 0.5s all ease;
-        backdrop-filter: blur(15px);
-        border-left: 3px solid var(--main-color); 
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    }
-    .navbar a {
-        display: block;
-        padding: 2rem;
-        font-size: 2rem;
-        color: var(--text-color);
-        font-weight: 600;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .navbar.active {
-        right: 0;
-    }
-    .home {
-        flex-direction: column;
-    }
-    .home-content h3 {
-        font-size: 2.6rem;
-    }
-    .home-content h1 {
-        font-size: 5rem;
-    }
-    .home-content {
-        order: 2;
-        margin-left: 1rem;
-    }
-    .home-img img {
-        width: 70vw;
-        margin-top: 4rem;
-    }
-    .about {
-        flex-direction: column-reverse;
-    }
-    .about-img img {
-        width: 70vw;
-        margin-top: 4rem;
-    }
-    .services h2 {
-        margin-bottom: 3rem;
-    }
-}
 
-@media (max-width: 617px) {
-    .home-img img {
-        width: 70vw;
-        margin-top: 8rem;
-    }
-    .about-img img {
-        width: 70vw;
-        margin-top: 4rem;
-    }   
-}
+// Scroll Reveal Animation (IntersectionObserver)
 
-@media (max-width: 617px) {
-    html {
-        font-size: 50%;
-    }
-}
 
-@media (max-width: 768px) {
-    .modal-content {
-        width: 90%;
-        margin: 20% auto;
-        padding: 4rem 2rem 3rem;
-    }
-    .modal-body i {
-        font-size: 5rem;
-        padding: 1.5rem;
-    }
-    .modal-body h2 {
-        font-size: 2.4rem;
-    }
-    .modal-body p {
-        font-size: 1.4rem;
-        text-align: center; /* Di HP lebih bagus rata tengah */
-    }
-}
+const revealElements = document.querySelectorAll('.reveal');
 
-@keyframes modalFadeIn {
-    from {
-        top: -100px;    /* Muncul dari arah atas */
-        opacity: 0;     /* Mulai dari transparan */
-        transform: scale(0.7); /* Mulai dari ukuran kecil */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+        } 
+    });
+}, {
+    threshold: 0.2
+});
+
+revealElements.forEach(el => revealObserver.observe(el));
+
+// Ambil elemen tombol
+const themeBtn = document.querySelector('#theme-btn');
+
+themeBtn.onclick = () => {
+    // 1. Tambah atau hapus class 'light-mode' pada tag <body>
+    document.body.classList.toggle('light-mode');
+
+    // 2. Ganti ikon bulan (bx-moon) jadi matahari (bx-sun) kalau lagi light-mode
+    if (document.body.classList.contains('light-mode')) {
+        themeBtn.classList.replace('bx-moon', 'bx-sun');
+    } else {
+        themeBtn.classList.replace('bx-sun', 'bx-moon');
     }
-    to {
-        top: 0;         /* Berhenti di posisi asli */
-        opacity: 1;     /* Menjadi terlihat jelas */
-        transform: scale(1);   /* Kembali ke ukuran normal */
+};
+
+// Feedback warna saat user mulai mengetik (UX Improvement)
+const formInputs = document.querySelectorAll('.contact form input, .contact form textarea');
+formInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        // Jika input tidak kosong, ubah border kembali ke warna utama
+        if (input.value.trim().length > 0) {
+            input.style.borderColor = 'var(--main-color)';
+        }
+    });
+});
+
+/* --- Logika Modal Services --- */
+const serviceModal = document.getElementById("service-modal");
+const serviceBtns = document.querySelectorAll(".btn-service");
+const closeModal = document.querySelector(".close-modal");
+
+// 1. Fungsi membuka modal
+serviceBtns.forEach(btn => {
+    btn.onclick = () => {
+        // Ambil data dari atribut tombol yang diklik
+        const title = btn.getAttribute("data-title");
+        const desc = btn.getAttribute("data-desc");
+        const iconClass = btn.getAttribute("data-icon");
+
+        // Masukkan data ke dalam elemen modal
+        document.getElementById("modal-title").innerText = title;
+        document.getElementById("modal-desc").innerText = desc;
+        document.getElementById("modal-icon").className = `bx ${iconClass}`;
+        
+        // Tampilkan modal
+        serviceModal.style.display = "block";
+        
+        // UX: Kunci scroll body agar tidak bergeser saat modal buka
+        document.body.style.overflow = "hidden";
+    };
+});
+
+// 2. Fungsi menutup modal lewat tombol (X)
+closeModal.onclick = () => {
+    serviceModal.style.display = "none";
+    document.body.style.overflow = "auto"; // Aktifkan scroll kembali
+};
+
+// 3. Fungsi menutup modal jika klik di luar kotak putih (area hitam)
+window.onclick = (event) => {
+    if (event.target == serviceModal) {
+        serviceModal.style.display = "none";
+        document.body.style.overflow = "auto";
     }
-}
-
-.navbar a.active {
-    color: var(--text-color);
-    border-bottom: 2px solid var(--text-color);
-}
-
-/* Scroll Reveal Animation */
-.reveal {
-    opacity: 0;
-    transform: translateY(60px);
-    transition: all 0.8s ease;
-    pointer-events: none;
-}
-
-.reveal.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-/* Aksesibilitas Keyboard */
-a:focus-visible, button:focus-visible {
-    outline: 2px dashed var(--main-color);
-    outline-offset: 4px;
-}
+};

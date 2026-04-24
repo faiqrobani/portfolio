@@ -49,6 +49,13 @@ window.addEventListener('scroll', () => {
                 }
             });
 
+            const scrollTop = document.querySelector('#scroll-top');
+            if (window.scrollY > 400) {
+                scrollTop.classList.add('show');
+            } else {
+                scrollTop.classList.remove('show');
+            }
+
             ticking = false;
         });
         ticking = true;

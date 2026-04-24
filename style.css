@@ -112,6 +112,41 @@ section {
     text-align: justify; /* Membuat teks terlihat lebih rapi seperti buku */
 }
 
+.scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--main-color);
+    color: var(--bg-color);
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem; /* Diperbesar sedikit agar jelas */
+    box-shadow: 0 0 15px var(--main-color);
+    opacity: 0; 
+    visibility: hidden;
+    transition: all .4s ease;
+    z-index: 1000; /* Pastikan di atas segalanya */
+    background: var(--main-color);
+}
+
+.scroll-top.show {
+    opacity: 0.4;
+    visibility: visible;
+    bottom: 3rem;
+    transform: translateX(-50%) translateY(0);
+}
+
+.scroll-top:hover {
+    transform: translateX(-50%) translateY(-5px) scale(1.1);
+    background: var(--main-color);
+    opacity: 1;
+}
+
 /* Header Section Code */
 
 .header {

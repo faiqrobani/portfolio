@@ -22,7 +22,7 @@ navLinks.forEach(link => {
     });
 });
 
-// Scroll event (optimized)
+// Scroll event 
 let ticking = false;
 
 window.addEventListener('scroll', () => {

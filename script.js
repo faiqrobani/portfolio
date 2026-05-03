@@ -1,9 +1,11 @@
+// Global Selections
 let menu = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.navbar a');
 const header = document.querySelector('.header');
 
+// Navigation Logic
 // Toggle menu
 menu.onclick = () => {
     menu.classList.toggle('bx-x');
@@ -22,7 +24,8 @@ navLinks.forEach(link => {
     });
 });
 
-// Scroll event 
+// Visual Improvements
+// Header Effect, Active Link, Show Scroll Top Button
 let ticking = false;
 
 window.addEventListener('scroll', () => {
@@ -62,69 +65,11 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-// Typed.js
-if (document.querySelector(".multiple-text")) {
-    new Typed('.multiple-text', {
-        strings: ['Data Analyst', 'Data Scientist', 'Web Developer', 'Data Engineer'],
-        typeSpeed: 80,
-        backSpeed: 50,
-        backDelay: 1000,
-        loop: true,
-    });
-}
-
-// Contact Form Validation
-document.querySelector('.contact form').addEventListener('submit', function (e) {
-
-    const inputs = this.querySelectorAll('input[type="text"], input[type="email"], textarea');
-    const email = this.querySelector('input[type="email"]');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    let valid = true;
-
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            input.style.borderColor = 'red';
-            valid = false;
-        } else {
-            input.style.borderColor = 'var(--main-color)';
-        }
-    });
-
-    if (!emailPattern.test(email.value.trim())) {
-        email.style.borderColor = "red";
-        valid = false;
-    }
-
-    if (!valid) {
-        e.preventDefault();
-        alert('Mohon lengkapi formulir dengan benar!');
-    } else {}
-});
-
-
-// Scroll Reveal Animation (IntersectionObserver)
-
-
-const revealElements = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-        } 
-    });
-}, {
-    threshold: 0.2
-});
-
-revealElements.forEach(el => revealObserver.observe(el));
-
-// Ambil elemen tombol
+// Theme Switcher Logic
 const themeBtn = document.querySelector('#theme-btn');
 
 themeBtn.onclick = () => {
-    // Tambah atau hapus class 'light-mode' pada tag <body>
+    // Toggle kelas 'light-mode' pada body untuk mengubah tema
     document.body.classList.toggle('light-mode');
 
     // Ganti ikon bulan (bx-moon) jadi matahari (bx-sun) saat light-mode
@@ -135,17 +80,7 @@ themeBtn.onclick = () => {
     }
 };
 
-// Feedback warna saat user mulai mengetik 
-const formInputs = document.querySelectorAll('.contact form input, .contact form textarea');
-formInputs.forEach(input => {
-    input.addEventListener('input', () => {
-        // Jika input tidak kosong, ubah border kembali ke warna utama
-        if (input.value.trim().length > 0) {
-            input.style.borderColor = 'var(--main-color)';
-        }
-    });
-});
-
+// Interactive Components
 // Logika Modal Services 
 const serviceModal = document.getElementById("service-modal");
 const serviceBtns = document.querySelectorAll(".btn-service");
@@ -185,3 +120,72 @@ window.onclick = (event) => {
         document.body.style.overflow = "auto";
     }
 };
+
+// Scroll Reveal Animation (IntersectionObserver)
+
+const revealElements = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+        } 
+    });
+}, {
+    threshold: 0.2
+});
+
+revealElements.forEach(el => revealObserver.observe(el));
+
+// Form Handling
+// Contact Form Validation
+document.querySelector('.contact form').addEventListener('submit', function (e) {
+
+    const inputs = this.querySelectorAll('input[type="text"], input[type="email"], textarea');
+    const email = this.querySelector('input[type="email"]');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    let valid = true;
+
+    inputs.forEach(input => {
+        if (!input.value.trim()) {
+            input.style.borderColor = 'red';
+            valid = false;
+        } else {
+            input.style.borderColor = 'var(--main-color)';
+        }
+    });
+
+    if (!emailPattern.test(email.value.trim())) {
+        email.style.borderColor = "red";
+        valid = false;
+    }
+
+    if (!valid) {
+        e.preventDefault();
+        alert('Mohon lengkapi formulir dengan benar!');
+    } else {}
+});
+
+// Feedback warna saat user mulai mengetik 
+const formInputs = document.querySelectorAll('.contact form input, .contact form textarea');
+formInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        // Jika input tidak kosong, ubah border kembali ke warna utama
+        if (input.value.trim().length > 0) {
+            input.style.borderColor = 'var(--main-color)';
+        }
+    });
+});
+
+// External Libraries
+// Typed.js
+if (document.querySelector(".multiple-text")) {
+    new Typed('.multiple-text', {
+        strings: ['Data Analyst', 'Data Scientist', 'Web Developer', 'Data Engineer'],
+        typeSpeed: 80,
+        backSpeed: 50,
+        backDelay: 1000,
+        loop: true,
+    });
+}

@@ -28,10 +28,10 @@ let ticking = false;
 window.addEventListener('scroll', () => {
     if (!ticking) {
         window.requestAnimationFrame(() => {
-            // 1. Efek Transparan Header
+            // Efek Transparan Header
             header.classList.toggle('scrolled', window.scrollY > 50);
 
-            // 2. Logika Active Link yang lebih akurat
+            // Active Link 
             let current = "";
             sections.forEach((section) => {
                 const sectionTop = section.offsetTop;

@@ -292,18 +292,6 @@ section {
                 0 0 45px var(--main-color)
 }
 
-@keyframes floatimage {
-    0% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-2.4rem);
-    }    
-    100% {
-        transform: translateY(0);
-    }
-}
-
 .home-content {
     margin-left: 5rem;
 }
@@ -666,9 +654,6 @@ span {
     .footer {
         padding: 2rem 3%;
     }
-}
-
-@media (max-width: 991px) {
     #menu-icon {
         display: block;
     }
@@ -678,12 +663,10 @@ span {
         border-left: 3px solid var(--main-color);
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05); /* Bayangan sangat halus */
     }
-
     .light-mode .navbar a {
         color: #0b1412; /* Teks menu gelap */
         border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Garis pemisah tipis */
     }
-
     .light-mode .navbar a.active {
         background: rgba(31, 191, 154, 0.1); /* Warna hijau sangat muda saat aktif */
         color: var(--main-color);
@@ -754,9 +737,6 @@ span {
         width: 70vw;
         margin-top: 4rem;
     }   
-}
-
-@media (max-width: 617px) {
     html {
         font-size: 50%;
     }
@@ -778,6 +758,18 @@ span {
     .modal-body p {
         font-size: 1.4rem;
         text-align: center; /* Di HP lebih bagus rata tengah */
+    }
+}
+
+@keyframes floatimage {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2.4rem);
+    }    
+    100% {
+        transform: translateY(0);
     }
 }
 

@@ -124,10 +124,10 @@ revealElements.forEach(el => revealObserver.observe(el));
 const themeBtn = document.querySelector('#theme-btn');
 
 themeBtn.onclick = () => {
-    // 1. Tambah atau hapus class 'light-mode' pada tag <body>
+    // Tambah atau hapus class 'light-mode' pada tag <body>
     document.body.classList.toggle('light-mode');
 
-    // 2. Ganti ikon bulan (bx-moon) jadi matahari (bx-sun) kalau lagi light-mode
+    // Ganti ikon bulan (bx-moon) jadi matahari (bx-sun) saat light-mode
     if (document.body.classList.contains('light-mode')) {
         themeBtn.classList.replace('bx-moon', 'bx-sun');
     } else {
@@ -135,7 +135,7 @@ themeBtn.onclick = () => {
     }
 };
 
-// Feedback warna saat user mulai mengetik (UX Improvement)
+// Feedback warna saat user mulai mengetik 
 const formInputs = document.querySelectorAll('.contact form input, .contact form textarea');
 formInputs.forEach(input => {
     input.addEventListener('input', () => {
@@ -146,12 +146,12 @@ formInputs.forEach(input => {
     });
 });
 
-/* --- Logika Modal Services --- */
+// Logika Modal Services 
 const serviceModal = document.getElementById("service-modal");
 const serviceBtns = document.querySelectorAll(".btn-service");
 const closeModal = document.querySelector(".close-modal");
 
-// 1. Fungsi membuka modal
+// Fungsi membuka modal
 serviceBtns.forEach(btn => {
     btn.onclick = () => {
         // Ambil data dari atribut tombol yang diklik
@@ -167,18 +167,18 @@ serviceBtns.forEach(btn => {
         // Tampilkan modal
         serviceModal.style.display = "block";
         
-        // UX: Kunci scroll body agar tidak bergeser saat modal buka
+        // Kunci scroll body agar tidak bergeser saat modal buka
         document.body.style.overflow = "hidden";
     };
 });
 
-// 2. Fungsi menutup modal lewat tombol (X)
+// Fungsi menutup modal lewat tombol (X)
 closeModal.onclick = () => {
     serviceModal.style.display = "none";
     document.body.style.overflow = "auto"; // Aktifkan scroll kembali
 };
 
-// 3. Fungsi menutup modal jika klik di luar kotak putih (area hitam)
+// Fungsi menutup modal jika klik di luar kotak putih (area hitam)
 window.onclick = (event) => {
     if (event.target == serviceModal) {
         serviceModal.style.display = "none";

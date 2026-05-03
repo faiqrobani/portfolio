@@ -41,14 +41,14 @@ window.addEventListener('scroll', () => {
                     current = section.getAttribute("id");
                 }
             });
-
+            // Update active link berdasarkan section yang sedang dilihat
             navLinks.forEach((link) => {
                 link.classList.remove("active");
                 if (link.getAttribute("href").includes(current)) {
                     link.classList.add("active");
                 }
             });
-
+            // Show Scroll Top Button
             const scrollTop = document.querySelector('#scroll-top');
             if (window.scrollY > 400) {
                 scrollTop.classList.add('show');
